@@ -4,13 +4,18 @@ function func(n) {
     if(n > 0){
         dp[1] = 1;
     };
-    let power = 0;
+    let count = 2;
+    let currentCount = count;
     for(let i = 2 ; i<= n; i++) {
-        if(Math.pow(2, power+1) === i){
-            power++;
-            dp[i] = 1;
+        if(currentCount === count) {
+            dp[i] = 1
         }
-        dp[i] = 1 + dp[i-Math.pow(2, power)]
+        
+        dp[i] = 1 + dp[i-count]
+        if(--currentCount === 0) {
+            count = count * 2;
+            currentCount = count;
+        }
     }
     return dp;
 }
