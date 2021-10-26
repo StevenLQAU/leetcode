@@ -7,39 +7,26 @@ function func(matrix) {
         }
     }
 
-    for(let i = 0 ; i < matrix.length; i++) {
-        for(let j = 0 ; j < matrix[0].length; j++) {
-            if(i ==0 && j == 0) {
-                dp[i][j] = matrix[i][j];
-                continue;
-            }
-            if(j==0 && i!=0) {
-                dp[i][j] = dp[i-1][matrix[0].length-1] + matrix[i][j];
-                continue;
-            }
-            const min = Math.min(i, j);
+    dp[0] = [...matrix[0]];
+    let result = dp[0].reduce((prev, curr)=> prev+curr,0);
+    for(let i = 1 ; i < matrix.length; i ++) {
+        dp[i][0] = matrix[i][0];
+        result += dp[i][0];
+    }
+    
+    for(let i = 1 ; i < matrix.length; i++) {
+        for(let j = 1 ; j < matrix[0].length; j++) {
             let curr = matrix[i][j];
             if(curr === 0 ) {
-                dp[i][j] = dp[i][j-1]
+                dp[i][j] = curr;
                 continue;
             }
-            for(let x = 1; x<= min; x++) {
-                let flag = true;
-                for(let l = i; l>= i-x; l--) {
-                    if(!flag) break;
-                    for(let r = j; r>=j-x; r--) {
-                        if(matrix[l][r] === 0 ){
-                            flag = false;
-                            break;
-                        }
-                    }
-                }
-                if(flag) curr++;
-            }
-            dp[i][j] = dp[i][j-1] + curr;
+            dp[i][j] = Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + curr;
+            result += dp[i][j]
         }
     }
-    return dp[matrix.length-1][matrix[0].length -1];
+
+    return result;
 }
 
 module.exports = func;
