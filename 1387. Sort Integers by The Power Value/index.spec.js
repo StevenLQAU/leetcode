@@ -10,7 +10,7 @@ test('resut is 1', () => {
     expect(result).toBe(1);
 });
 
-test('resut is 7', () => {
+test('resut is 7', () => {k
     const result = func(7, 11,4);
     expect(result).toBe(7);
 });
